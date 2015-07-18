@@ -1,4 +1,6 @@
-var game;
+var game, term, termTextView;
+
+game = new Phaser.Game(640, 480, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 //load web fonts
 window.WebFontConfig = {
@@ -20,23 +22,15 @@ window.WebFontConfig = {
     s.parentNode.insertBefore(wf, s);
 })();
 
-
 function main () {
-	game = new Phaser.Game(640, 480, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-
-	var testTerm = new Terminal(80, 25);
-	console.warn(testTerm.charbuffer[0][1]);
-	console.warn(testTerm.charbuffer.length);
-	console.warn(testTerm.charbuffer[0].length);
+	
 }
 
 function preload () {
-
-
-
-}
-
-function create () {
+	term = new Terminal(80, 25);
+	console.warn(term.charbuffer[0][1]);
+	console.warn(term.charbuffer.length);
+	console.warn(term.charbuffer[0].length);
 
 	var style = {
         font: "19px VT323",
@@ -45,10 +39,18 @@ function create () {
         lineHeight: 19
     };
 
-    var text = game.add.text(0, 0, '\nBAD `N` RAD BBS v0.01\nfff\nabcdefghijklmnopqrstuvwxyz0123456789\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 8\n 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ', style);
+    termTextView =  game.add.text(0, 0, '', style);
+	
+}
 
-    //text.anchor.set(0.5);
+function create () {
+//'\nBAD `N` RAD BBS v0.01\nfff\nabcdefghijklmnopqrstuvwxyz0123456789\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 8\n 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 '
+	var line1 = 'BAD `N` RAD BBS v0.01';
+	term.addLine(line1);
+
+
 }
 
 function update() {
+	termTextView.setText(term.getFormattedBuffer());
 }

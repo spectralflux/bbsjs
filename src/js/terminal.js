@@ -3,6 +3,7 @@
  * The terminal itself, and associated objects.
  */
 
+
 /* Terminal character object. */
 var TerminalChar = function (char, fgcolor, bgcolor) {
     this.char = char;
@@ -21,11 +22,54 @@ var Terminal = function (width, height) {
 
     // initialize terminal char buffer (i.e. current screen)
     this.charbuffer = [];
-    for (i = 0; i < this.width; i++) {
+    for (i = 0; i < this.height; i++) {
         this.charbuffer[i] = [];
-        for (j = 0; j < this.height; j++) {
-            this.charbuffer[i][j] = new TerminalChar('', [0, 0, 0], [0, 0, 0]);
+        for (j = 0; j < this.width; j++) {
+            this.charbuffer[i][j] = new TerminalChar('', constants.BLACK, constants.BLACK);
         }
     }
+};
+
+// Add a new line (as a string) to bottom of buffer
+Terminal.prototype.addLine = function (line) {
+    var i;
+    if (line.length > this.width) {
+        console.error('Line length is too large.');
+    }
+    var charArray = line.split('');
+    var terminalCharArray = [];
+    for (i = 0; i < this.width; i++) {
+        if (i <= charArray.length) {
+            terminalCharArray.push(new TerminalChar(charArray[i], constants.BLACK, constants.BLACK));
+        } else {
+            terminalCharArray.push(new TerminalChar('', constants.BLACK, constants.BLACK));
+        }
+    }
+    this.moveLinesUp(1);
+    this.charbuffer[this.charbuffer.length -1] = terminalCharArray;
+};
+
+// Move all lines up, lines at top will be wiped.
+Terminal.prototype.moveLinesUp = function (numLines) {
+    var i;
+
+    for (i = 0; i < this.height; i++) {
+        if (i >= numLines) {
+            this.charbuffer[i] = this.charbuffer[i-numLines];
+        }
+    }
+
+};
+
+Terminal.prototype.getFormattedBuffer = function () {
+    var i, j;
+    var outputString = '';
+    for (i = 0; i < this.height; i++) {
+        for (j = 0; j < this.width; j++) {
+            outputString = outputString + this.charbuffer[i][j].char;
+        }
+        outputString = outputString + '\n';
+    }
+    return outputString;
 };
 

@@ -1,0 +1,24 @@
+{
+  "name": "bbsjs",
+  "version": "0.0.1",
+  "description": "BBS emulator in javascript.",
+  "main": [
+    "js/main.js"
+  ],
+  "dependencies": {
+    "phaser": "latest"
+  },
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

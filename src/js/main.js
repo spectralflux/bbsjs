@@ -8,7 +8,7 @@ window.WebFontConfig = {
     },
 
     active: function () {
-    	main();
+        main();
     }
 };
 (function () {
@@ -21,30 +21,36 @@ window.WebFontConfig = {
     s.parentNode.insertBefore(wf, s);
 })();
 
-function main () {
-	game = new Phaser.Game(640, 480, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+function main() {
+    game = new Phaser.Game(640, 480, Phaser.AUTO, '', {
+        preload: preload,
+        create: create,
+        update: update
+    });
 }
 
-function preload () {
+function preload() {
 
 }
 
-function create () {
+function create() {
 
-	var style = {
+    var style = {
         font: "19px VT323",
         fill: 'orange',
         align: 'left',
         lineHeight: 19
     };
 
-	term = new Terminal(80, 25);
-	term.addLine('BAD `N` RAD BBS v0.01');
-	term.moveLinesUp(24);
-    termTextView =  game.add.text(0, 0, '', style);
+    term = new Terminal(80, 25);
+    term.addLine('BAD `N` RAD BBS v0.01');
+    term.addLine('---------------------');
+
+    term.moveLinesUp(23);
+    termTextView = game.add.text(0, 0, '', style);
     termTextView.setText(term.getFormattedBuffer());
 }
 
 function update() {
-	termTextView.setText(term.getFormattedBuffer());
+    termTextView.setText(term.getFormattedBuffer());
 }

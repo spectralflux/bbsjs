@@ -3,7 +3,6 @@
  * The terminal itself, and associated objects.
  */
 
-
 /* Terminal character object. */
 var TerminalChar = function (char, fgcolor, bgcolor) {
     this.char = char;

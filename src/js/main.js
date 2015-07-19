@@ -1,6 +1,5 @@
+//global variables
 var game, term, termTextView;
-
-game = new Phaser.Game(640, 480, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 //load web fonts
 window.WebFontConfig = {
@@ -23,14 +22,14 @@ window.WebFontConfig = {
 })();
 
 function main () {
-	
+	game = new Phaser.Game(640, 480, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 }
 
 function preload () {
-	term = new Terminal(80, 25);
-	console.warn(term.charbuffer[0][1]);
-	console.warn(term.charbuffer.length);
-	console.warn(term.charbuffer[0].length);
+
+}
+
+function create () {
 
 	var style = {
         font: "19px VT323",
@@ -39,16 +38,11 @@ function preload () {
         lineHeight: 19
     };
 
+	term = new Terminal(80, 25);
+	term.addLine('BAD `N` RAD BBS v0.01');
+	term.moveLinesUp(24);
     termTextView =  game.add.text(0, 0, '', style);
-	
-}
-
-function create () {
-//'\nBAD `N` RAD BBS v0.01\nfff\nabcdefghijklmnopqrstuvwxyz0123456789\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 8\n 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 '
-	var line1 = 'BAD `N` RAD BBS v0.01';
-	term.addLine(line1);
-
-
+    termTextView.setText(term.getFormattedBuffer());
 }
 
 function update() {

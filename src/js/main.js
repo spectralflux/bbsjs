@@ -45,8 +45,15 @@ function create() {
     term = new Terminal(80, 25);
     term.addLine('BAD `N` RAD BBS v0.01');
     term.addLine('---------------------');
+    term.addLine('---------------------');
+    term.addLine('---------------------');
+    term.addLine('---------------------');
+    term.addLine('---------------------');
 
-    term.moveLinesUp(23);
+    console.log(term.cursorCol);
+    console.log(term.cursorRow);
+
+    term.moveLinesUp(15);
     termTextView = game.add.text(0, 0, '', style);
     termTextView.setText(term.getFormattedBuffer());
 }

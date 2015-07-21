@@ -8,6 +8,7 @@ var TerminalChar = function (char, fgcolor, bgcolor) {
     this.char = char;
     this.fgcolor = fgcolor;
     this.bgcolor = bgcolor;
+    this.isCursor = false;
     this.isFlashing = false; //flashing will alternate char from foreground color to background color.
 };
 
@@ -15,58 +16,46 @@ var TerminalChar = function (char, fgcolor, bgcolor) {
 /* Terminal object. */
 var Terminal = function (width, height) {
     var i, j;
-    this.width = width; //rows
-    this.height = height; //cols
-    this.cursor = [0, 0]; //position of cursor
-    this.cursorChar = new TerminalChar('_', constants.BLACK, constants.BLACK);
+    this.width = width; //cols
+    this.height = height; //rows
+    this.cursorCol = 0; //position of cursor
+    this.cursorRow = 0; //position of cursor
+    this.cursorChar = '_';
+    this.blankChar = '';
     this.charbuffer = undefined;
     this.clear();
 
 };
 
 Terminal.prototype.setCursorPosition = function (row, col) {
-    var newRow, newCol;
-
-    if (row < 0) {
-        newRow = 0;
-    } else if (row >= this.width) {
-        newRow = this.width - 1;
-    } else {
-        newRow = row;
-    }
+    var newRow,
+        newCol,
+        prevRow = this.cursorRow,
+        prevCol = this.cursorCol;
 
     if (col < 0) {
         newCol = 0;
-    } else if (col >= this.height) {
-        newCol = this.height - 1;
+    } else if (col >= this.width) {
+        newCol = this.width - 1;
     } else {
-        if ((col < this.height - 1) && (row >= this.width)) {
+        newCol = col;
+    }
+
+    if (row < 0) {
+        newRow = 0;
+    } else if (row >= this.height) {
+        newRow = this.height - 1;
+    } else {
+        if ((row < this.height - 1) && (col >= this.width)) {
             //cursor went over terminal width, carriage return
-            newCol = col + 1;
+            newRow = row + 1;
         } else {
-            newCol = col;
+            newRow = row;
         }
     }
 
-    /*    
-        if (row < this.width) {
-            if (col < this.height) {
-                newRow = row;
-            } else {
-                newRow = 0;
-                newCol = col + 1;
-            }
-        } else {
-            newRow = this.width - 1;
-        }
-        if (col < this.height) {
-            newCol = col;
-        } else {
-            newCol = this.height - 1;
-        }*/
-    /*   newCol = 0;
-      newRow = 21;*/
-    this.charbuffer[newCol][newRow] = this.cursorChar;
+    this.charbuffer[prevRow][prevCol].isCursor = false;
+    this.charbuffer[newRow][newCol].isCursor = true;
 };
 
 // Add a new line (as a string) to bottom of buffer
@@ -81,14 +70,14 @@ Terminal.prototype.addLine = function (line) {
         if (i < charArray.length) {
             terminalCharArray.push(new TerminalChar(charArray[i], constants.BLACK, constants.BLACK));
         } else {
-            terminalCharArray.push(new TerminalChar('', constants.BLACK, constants.BLACK));
+            terminalCharArray.push(new TerminalChar(this.blankChar, constants.BLACK, constants.BLACK));
         }
     }
     this.moveLinesUp(1);
     this.charbuffer[this.charbuffer.length - 1] = terminalCharArray;
 
     //set cursor position
-    this.setCursorPosition(charArray.length, this.charbuffer.length - 1);
+    this.setCursorPosition(this.height - 1, charArray.length);
 };
 
 // Move all lines up, lines at top will be wiped.
@@ -101,8 +90,9 @@ Terminal.prototype.moveLinesUp = function (numLines) {
             this.charbuffer[i] = this.getBlankLine();
         }
     }
+
     //set cursor position
-    this.setCursorPosition(this.cursor[0], this.cursor[1] - numLines);
+    this.setCursorPosition(this.cursorRow - numLines, this.cursorCol);
 };
 
 Terminal.prototype.getFormattedBuffer = function () {
@@ -121,7 +111,7 @@ Terminal.prototype.getBlankLine = function () {
     var i;
     var line = [];
     for (i = 0; i < this.width; i++) {
-        line.push(new TerminalChar('', constants.BLACK, constants.BLACK));
+        line.push(new TerminalChar(this.blankChar, constants.BLACK, constants.BLACK));
     }
     return line;
 };
@@ -131,7 +121,7 @@ Terminal.prototype.clear = function () {
     for (i = 0; i < this.height; i++) {
         this.charbuffer.push([]);
         for (j = 0; j < this.width; j++) {
-            this.charbuffer[i].push(new TerminalChar('', constants.BLACK, constants.BLACK));
+            this.charbuffer[i].push(new TerminalChar(this.blankChar, constants.BLACK, constants.BLACK));
         }
     }
     this.setCursorPosition(0, 0);

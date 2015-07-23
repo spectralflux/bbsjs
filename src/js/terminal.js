@@ -56,6 +56,8 @@ Terminal.prototype.setCursorPosition = function (row, col) {
 
     this.charbuffer[prevRow][prevCol].isCursor = false;
     this.charbuffer[newRow][newCol].isCursor = true;
+    this.cursorCol = newCol;
+    this.cursorRow = newRow;
 };
 
 // Add a new line (as a string) to bottom of buffer

@@ -82,6 +82,12 @@ Terminal.prototype.addLine = function (line) {
     this.setCursorPosition(this.height - 1, charArray.length);
 };
 
+// Add a new char at cursor, move cursor one along
+Terminal.prototype.addChar = function (char) {
+    this.charbuffer[this.cursorRow][this.cursorCol] = new TerminalChar(char, constants.BLACK, constants.BLACK);
+    this.setCursorPosition(this.cursorRow, this.cursorCol + 1);
+}
+
 // Move all lines up, lines at top will be wiped.
 Terminal.prototype.moveLinesUp = function (numLines) {
     var i;

@@ -43,21 +43,28 @@ function create() {
     };
 
     term = new Terminal(80, 25);
-    term.addLine('BAD `N` RAD BBS v0.01');
-    term.addLine('---------------------');
-    term.addLine('---------------------');
-    term.addLine('---------------------');
-    term.addLine('---------------------');
-    term.addLine('---------------------');
+    /*    term.addLine('BAD `N` RAD BBS v0.01');
+        term.addLine('---------------------');
+        term.addLine('---------------------');
+        term.addLine('---------------------');
+        term.addLine('---------------------');
+        term.addLine('---------------------');
 
-    console.log(term.cursorCol);
-    console.log(term.cursorRow);
+        console.log(term.cursorCol);
+        console.log(term.cursorRow);
 
-    term.moveLinesUp(15);
+        term.moveLinesUp(15);*/
+    term.clear();
     termTextView = game.add.text(0, 0, '', style);
     termTextView.setText(term.getFormattedBuffer());
+
+    game.input.keyboard.addCallbacks(this, null, null, keyPress);
 }
 
 function update() {
     termTextView.setText(term.getFormattedBuffer());
+}
+
+function keyPress(char) {
+    term.addChar(char);
 }

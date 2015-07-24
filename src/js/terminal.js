@@ -49,6 +49,10 @@ Terminal.prototype.setCursorPosition = function (row, col) {
         if ((row < this.height - 1) && (col >= this.width)) {
             //cursor went over terminal width, carriage return
             newRow = row + 1;
+        } else if ((col === 0) && (row > 0)) {
+            //at start of line, go back to last char in previous line
+            newRow = row - 1;
+            newCol = this.width - 1;
         } else {
             newRow = row;
         }
@@ -86,6 +90,11 @@ Terminal.prototype.addLine = function (line) {
 Terminal.prototype.addChar = function (char) {
     this.charbuffer[this.cursorRow][this.cursorCol] = new TerminalChar(char, constants.BLACK, constants.BLACK);
     this.setCursorPosition(this.cursorRow, this.cursorCol + 1);
+}
+
+Terminal.prototype.deleteChar = function () {
+    this.charbuffer[this.cursorRow][this.cursorCol] = new TerminalChar(this.blankChar, constants.BLACK, constants.BLACK);
+    this.setCursorPosition(this.cursorRow, this.cursorCol - 1);
 }
 
 // Move all lines up, lines at top will be wiped.

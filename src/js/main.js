@@ -37,28 +37,37 @@ function create() {
 
     var style = {
         font: "19px VT323",
-        fill: 'green',
+        fill: '#FF9100',
         align: 'left',
         lineHeight: 19
     };
 
-    term = new Terminal(30, 5);
-        term.addLine('BAD `N` RAD BBS v0.01');
-     /*   term.addLine('---------------------');
-        term.addLine('---------------------');
-        term.addLine('---------------------');
-        term.addLine('---------------------');
-        term.addLine('---------------------');
+    term = new Terminal(80, 18);
+    term.addLine('BAD `N` RAD BBS v0.01');
+    /*   term.addLine('---------------------');
+       term.addLine('---------------------');
+       term.addLine('---------------------');
+       term.addLine('---------------------');
+       term.addLine('---------------------');
 
-        console.log(term.cursorCol);
-        console.log(term.cursorRow);
+       console.log(term.cursorCol);
+       console.log(term.cursorRow);
 
-        term.moveLinesUp(15);*/
-    term.clear();
+       term.moveLinesUp(15);*/
+    for (var xx = 0; xx < 17; xx++) {
+        term.addLine('~~~~~~~~~~~~~~~~~~');
+    }
+    //term.clear();
     termTextView = game.add.text(0, 0, '', style);
     termTextView.setText(term.getFormattedBuffer());
+    termTextView.tint = 0xFFFFFF; //0xAAAAAA;
 
-    document.onkeydown = KeyCheck;  //or however you are calling your method
+    //set booter program running
+    var boot = new Booter(term);
+    boot.start();
+
+
+    document.onkeydown = KeyCheck; //or however you are calling your method
 
     game.input.keyboard.addCallbacks(this, null, null, keyPress);
 }
@@ -72,20 +81,18 @@ function keyPress(char) {
 }
 
 // capture non-char keys
-function KeyCheck()
-{
-   var KeyID = event.keyCode;
-   switch(KeyID)
-   {
-      case 8:
-      alert("backspace");
-      break; 
-      case 46:
-      alert("delete");
-      break;
-      default:
-      break;
+function KeyCheck() {
+    var KeyID = event.keyCode;
+    switch (KeyID) {
+    case 8:
+        alert("backspace");
+        break;
+    case 46:
+        alert("delete");
+        break;
+    default:
+        break;
 
-      //also of possible use is enter - code=13
-   }
+        //also of possible use is enter - code=13
+    }
 }

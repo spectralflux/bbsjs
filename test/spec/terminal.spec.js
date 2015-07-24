@@ -87,6 +87,17 @@ describe("Terminal", function () {
 
         });
 
+        it("should go to the last char in previous line if deleting the first char of a line", function () {
+            for (var i = 0; i < terminal.width; i++) {
+                terminal.addChar('A');
+            }
+            terminal.addChar('A');
+            terminal.deleteChar();
+            terminal.deleteChar();
+            expect(terminal.cursorRow).toEqual(0);
+            expect(terminal.cursorCol).toEqual(terminal.width - 1);
+        });
+
     });
 
 

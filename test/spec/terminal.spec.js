@@ -50,6 +50,13 @@ describe("Terminal", function () {
         expect(nonBlankCharCount).toEqual(0);
     });
 
+    it("should be able to add a single character at the location of the cursor", function () {
+        var cr = terminal.cursorRow;
+        var cc = terminal.cursorCol;
+        terminal.addChar('A');
+        expect(terminal.charbuffer[cr][cc].char).toEqual('A');
+    });
+
     it("should move cursor along one column after adding a char (if line isnt size of terminal width already)", function () {
         var cr = terminal.cursorRow;
         var cc = terminal.cursorCol;

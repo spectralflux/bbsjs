@@ -5,15 +5,17 @@ Boot program for BBS, subclass of TerminalProgram
     - logout
 */
 
-var Booter = function (terminal) {
-    TerminalProgram.call(this, terminal);
+var Booter = function () {
+    TerminalProgram.call(this);
 };
 Booter.prototype = Object.create(TerminalProgram.prototype);
 Booter.prototype.constructor = Booter;
 
 Booter.prototype.start = function () {
-    this.terminal.clear();
-    this.terminal.addLine("BBS v0.0.1");
-    this.terminal.addLine("----------");
-    this.terminal.moveLinesUp(this.terminal.height - 2);
+    terminal.clear();
+    terminal.addLine("BBS v0.0.1");
+    terminal.addLine("----------");
+    terminal.getBlankLine();
+    terminal.addLine("username: ");
+    terminal.moveLinesUp(terminal.height - 3);
 }

@@ -1,5 +1,5 @@
 //global variables
-var game, term, termTextView;
+var game, terminal, termTextView, terminalProgram;
 
 //load web fonts
 window.WebFontConfig = {
@@ -42,57 +42,20 @@ function create() {
         lineHeight: 19
     };
 
-    term = new Terminal(80, 18);
-    term.addLine('BAD `N` RAD BBS v0.01');
-    /*   term.addLine('---------------------');
-       term.addLine('---------------------');
-       term.addLine('---------------------');
-       term.addLine('---------------------');
-       term.addLine('---------------------');
+    terminal = new Terminal(80, 18);
 
-       console.log(term.cursorCol);
-       console.log(term.cursorRow);
-
-       term.moveLinesUp(15);*/
-    for (var xx = 0; xx < 17; xx++) {
-        term.addLine('~~~~~~~~~~~~~~~~~~');
-    }
-    //term.clear();
     termTextView = game.add.text(0, 0, '', style);
-    termTextView.setText(term.getFormattedBuffer());
+    termTextView.setText(terminal.getFormattedBuffer());
     termTextView.tint = 0xFFFFFF; //0xAAAAAA;
 
     //set booter program running
-    var boot = new Booter(term);
-    boot.start();
+    terminalProgram = new Booter();
+    terminalProgram.start();
+    document.onkeydown = terminalProgram.keyCheck;
+    game.input.keyboard.addCallbacks(this, null, null, terminalProgram.keyPress);
 
-
-    document.onkeydown = KeyCheck; //or however you are calling your method
-
-    game.input.keyboard.addCallbacks(this, null, null, keyPress);
 }
 
 function update() {
-    termTextView.setText(term.getFormattedBuffer());
-}
-
-function keyPress(char) {
-    term.addChar(char);
-}
-
-// capture non-char keys
-function KeyCheck() {
-    var KeyID = event.keyCode;
-    switch (KeyID) {
-    case 8:
-        alert("backspace");
-        break;
-    case 46:
-        alert("delete");
-        break;
-    default:
-        break;
-
-        //also of possible use is enter - code=13
-    }
+    termTextView.setText(terminal.getFormattedBuffer());
 }

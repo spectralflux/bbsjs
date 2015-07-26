@@ -2,30 +2,25 @@
 Object representing a piece of "software" running on the bbs terminal platform
 */
 
-var TerminalProgram = function () {};
+var TerminalProgram = function () {
+    this.userInputStartCursorRow = undefined;
+    this.userInputStartCursorCol = undefined;
+    this.userInputMode = false;
+};
 
 // start the program.
 TerminalProgram.prototype.start = function () {
     terminal.clear();
 }
 
-TerminalProgram.prototype.keyPress = function keyPress(char) {
-    terminal.addChar(char);
+TerminalProgram.prototype.processUserInput = function () {
+    console.log("processing user input");
 }
 
-// capture non-char keys
-TerminalProgram.prototype.keyCheck = function keyCheck() {
-    var KeyID = event.keyCode;
-    switch (KeyID) {
-    case 8:
-        terminal.deleteChar();
-        break;
-    case 46:
-        terminal.deleteChar();
-        break;
-    default:
-        break;
-
-        //also of possible use is enter - code=13
-    }
+TerminalProgram.prototype.startUserInputMode = function () {
+    this.userInputStartCursorRow = terminal.cursorRow;
+    this.userInputStartCursorCol = terminal.cursorCol;
+    this.userInputMode = true;
 }
+
+TerminalProgram.prototype.stopUserInputMode = function () {}

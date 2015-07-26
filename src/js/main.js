@@ -48,14 +48,43 @@ function create() {
     termTextView.setText(terminal.getFormattedBuffer());
     termTextView.tint = 0xFFFFFF; //0xAAAAAA;
 
+    document.onkeydown = keyCheck;
+    game.input.keyboard.addCallbacks(this, null, null, keyPress);
+
     //set booter program running
     terminalProgram = new Booter();
     terminalProgram.start();
-    document.onkeydown = terminalProgram.keyCheck;
-    game.input.keyboard.addCallbacks(this, null, null, terminalProgram.keyPress);
+
 
 }
 
 function update() {
     termTextView.setText(terminal.getFormattedBuffer());
+}
+
+function keyPress(char) {
+    terminal.addChar(char);
+}
+
+// capture non-char keys
+function keyCheck() {
+    var KeyID = event.keyCode;
+    switch (KeyID) {
+    case 8:
+        event.preventDefault();
+        terminal.deleteChar();
+        break;
+    case 46:
+        event.preventDefault();
+        terminal.deleteChar();
+        break;
+    case 13:
+        event.preventDefault();
+        terminalProgram.processUserInput();
+        break;
+    default:
+        break;
+
+        //also of possible use is enter - code=13
+    }
 }

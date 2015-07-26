@@ -18,4 +18,4 @@ Booter.prototype.start = function () {
     terminal.getBlankLine();
     terminal.addLine("username: ");
     terminal.moveLinesUp(terminal.height - 3);
-}
+};

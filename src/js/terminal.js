@@ -49,10 +49,10 @@ Terminal.prototype.setCursorPosition = function (row, col) {
         if ((row < this.height - 1) && (col >= this.width)) {
             //cursor went over terminal width, carriage return
             newRow = row + 1;
-        } else if ((col === 0) && (row > 0)) {
-            //at start of line, go back to last char in previous line
-            newRow = row - 1;
-            newCol = this.width - 1;
+            /*        } else if ((col === 0) && (row > 0)) {
+                        //at start of line, go back to last char in previous line
+                        newRow = row - 1;
+                        newCol = this.width - 1;*/
         } else {
             newRow = row;
         }
@@ -72,18 +72,22 @@ Terminal.prototype.addLine = function (line) {
     }
     var charArray = line.split('');
     var terminalCharArray = [];
+
+
     for (i = 0; i < this.width; i++) {
-        if (i < charArray.length) {
-            terminalCharArray.push(new TerminalChar(charArray[i], constants.BLACK, constants.BLACK));
-        } else {
-            terminalCharArray.push(new TerminalChar(this.blankChar, constants.BLACK, constants.BLACK));
-        }
+        terminalCharArray.push(new TerminalChar(this.blankChar, constants.BLACK, constants.BLACK));
     }
+
     this.moveLinesUp(1);
     this.charbuffer[this.charbuffer.length - 1] = terminalCharArray;
 
-    //set cursor position
-    this.setCursorPosition(this.height - 1, charArray.length);
+    this.setCursorPosition(this.height - 1, 0);
+
+    for (i = 0; i < charArray.length; i++) {
+        this.addChar(charArray[i]);
+    }
+
+    //    this.setCursorPosition(this.height - 1, charArray.length);
 };
 
 // Add a new char at cursor, move cursor one along

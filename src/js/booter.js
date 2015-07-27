@@ -18,4 +18,9 @@ Booter.prototype.start = function () {
     terminal.getBlankLine();
     terminal.addLine("username: ");
     terminal.moveLinesUp(terminal.height - 3);
+    this.startUserInputMode(this.getUserName());
 };
+
+Booter.prototype.getUserName = function () {
+
+} 

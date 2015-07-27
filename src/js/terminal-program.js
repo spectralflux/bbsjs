@@ -2,12 +2,19 @@
 Object representing a piece of "software" running on the bbs terminal platform
 */
 
-var TerminalProgram = function () {
+var TerminalProgram = function (nextProgram) {
     this.userInputStartCursorRow = undefined;
     this.userInputStartCursorCol = undefined;
     this.userInputMode = false;
     this.userInputCallback = undefined;
+    this.nextProgram = nextProgram;
 };
+
+//not sure if states are needed yet...
+/*TerminalProgram.prototype.STATE = {
+    STARTED: 0,
+};*/
+
 
 // start the program.
 TerminalProgram.prototype.start = function () {
@@ -16,6 +23,7 @@ TerminalProgram.prototype.start = function () {
 
 TerminalProgram.prototype.processUserInput = function () {
     console.log("processing user input");
+    this.stopUserInputMode();
 }
 
 TerminalProgram.prototype.startUserInputMode = function (callback) {
@@ -26,7 +34,12 @@ TerminalProgram.prototype.startUserInputMode = function (callback) {
 }
 
 TerminalProgram.prototype.stopUserInputMode = function () {
-	this.userInputMode = false;
-	//execute callback with data from user
-	//single row? from userInputStartCursorCol to where cursor is now.
+    var userInput = '';
+    this.userInputMode = false;
+    //execute callback with input from user
+    for (var i = this.userInputStartCursorCol; i < terminal.cursorCol; i++) {
+        userInput = userInput + terminal.charbuffer[this.userInputStartCursorRow][i].char;
+    }
+    this.userInputCallback(userInput);
+    //single row? from userInputStartCursorCol to where cursor is now.
 }

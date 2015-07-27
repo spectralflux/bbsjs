@@ -8,15 +8,15 @@ var connectReload = require('connect-livereload');
 var mainBowerFiles = require('main-bower-files');
 
 // copy bower dependencies to lib folder
-gulp.task('bower', function() {
+gulp.task('bower', function () {
     return gulp.src(mainBowerFiles())
         .pipe(gulp.dest('dist/js/lib'))
 });
 
 gulp.task('build:js', function () {
-  return gulp.src('./src/js/**/*')
-    .pipe(gulp.dest('./dist/js'))
-    .pipe(connect.reload());
+    return gulp.src('./src/js/**/*')
+        .pipe(gulp.dest('./dist/js'))
+        .pipe(connect.reload());
 });
 
 gulp.task('build', ['build:js']);
@@ -37,7 +37,7 @@ gulp.task('copy:html', function () {
         .pipe(connect.reload());
 });
 
-gulp.task('copy', ['copy:assets', 'copy:html', 'copy:css']);
+gulp.task('copy', ['copy:assets', 'copy:html', 'copy:css', 'copy:assets']);
 
 gulp.task('connect', function () {
     return connect.server({
@@ -56,10 +56,10 @@ gulp.task('watch', ['copy', 'build'], function () {
     gulp.watch('./src/js/**/*.js', ['build:js']);
     gulp.watch('./src/**/*.html', ['copy:html']);
     gulp.watch('./src/**/*.css', ['copy:css']);
+    gulp.watch('./src/assets/**/*.*', ['copy:assets']);
     //gulp.watch('./bower_components/**', ['bower']);
 });
 
 gulp.task('dev', ['connect', 'watch']);
 
 gulp.task('default', ['build', 'copy']);
-

@@ -98,6 +98,12 @@ describe("Terminal", function () {
             expect(terminal.cursorCol).toEqual(terminal.width - 1);
         });
 
+        it("should go to the first char of the next row if newLine() is called", function () {
+            terminal.newLine();
+            expect(terminal.cursorRow).toEqual(1);
+            expect(terminal.cursorCol).toEqual(0);
+        });
+
     });
 
 

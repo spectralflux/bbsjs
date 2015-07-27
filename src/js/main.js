@@ -22,7 +22,7 @@ window.WebFontConfig = {
 })();
 
 function main() {
-    game = new Phaser.Game(640, 480, Phaser.AUTO, '', {
+    game = new Phaser.Game(640, 480, Phaser.AUTO, 'container', {
         preload: preload,
         create: create,
         update: update

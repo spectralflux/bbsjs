@@ -147,3 +147,7 @@ Terminal.prototype.clear = function () {
     }
     this.setCursorPosition(0, 0);
 };
+
+Terminal.prototype.newLine = function () {
+    this.setCursorPosition(this.cursorRow + 1, 0);
+}

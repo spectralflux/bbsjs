@@ -1,0 +1,9 @@
+body {
+    background-image: url("../assets/c64.png");
+}
+
+#container {
+    position: absolute;
+    top: 135px;
+    left: 670px;
+}

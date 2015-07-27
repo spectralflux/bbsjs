@@ -5,22 +5,46 @@ Boot program for BBS, subclass of TerminalProgram
     - logout
 */
 
-var Booter = function () {
-    TerminalProgram.call(this);
+var Booter = function (nextProgram) {
+    TerminalProgram.call(this, nextProgram);
 };
 Booter.prototype = Object.create(TerminalProgram.prototype);
 Booter.prototype.constructor = Booter;
+
+Booter.prototype.processUserInput = function () {
+    console.log("processing user input");
+    this.stopUserInputMode();
+}
 
 Booter.prototype.start = function () {
     terminal.clear();
     terminal.addLine("BBS v0.0.1");
     terminal.addLine("----------");
-    terminal.getBlankLine();
+    terminal.moveLinesUp(1);
     terminal.addLine("username: ");
-    terminal.moveLinesUp(terminal.height - 3);
-    this.startUserInputMode(this.getUserName());
+    terminal.moveLinesUp(terminal.height - 4);
+    this.startUserInputMode(this.getUserName);
 };
 
-Booter.prototype.getUserName = function () {
+Booter.prototype.getUserName = function (response) {
+    this.welcome(response);
+}
 
-} 
+Booter.prototype.getMenuSelection = function (response) {
+    this.welcome(response);
+}
+
+Booter.prototype.welcome = function (username) {
+    terminal.clear();
+    terminal.addLine("Welcome, " + username + "!");
+    terminal.moveLinesUp(1);
+    terminal.addLine("What would you like to do today?");
+    terminal.moveLinesUp(1);
+    terminal.addLine("[p] Post A Message          [r] Read Messages");
+    terminal.addLine("[q] Log out");
+    terminal.moveLinesUp(terminal.height - 7);
+    terminal.newLine();
+    this.startUserInputMode(this.getMenuSelection);
+}
+
+Booter.prototype.useMenu = function (menuInput) {}

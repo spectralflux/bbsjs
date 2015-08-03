@@ -52,8 +52,7 @@ function create() {
     game.input.keyboard.addCallbacks(this, null, null, keyPress);
 
     //set booter program running
-    terminalProgram = new Booter();
-    terminalProgram.start();
+    loadProgram(new Booter());
 
 
 }
@@ -87,4 +86,9 @@ function keyCheck() {
 
         //also of possible use is enter - code=13
     }
+}
+
+function loadProgram(programObject) {
+    terminalProgram = programObject;
+    terminalProgram.start();
 }

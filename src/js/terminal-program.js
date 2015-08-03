@@ -2,12 +2,11 @@
 Object representing a piece of "software" running on the bbs terminal platform
 */
 
-var TerminalProgram = function (nextProgram) {
+var TerminalProgram = function () {
     this.userInputStartCursorRow = undefined;
     this.userInputStartCursorCol = undefined;
     this.userInputMode = false;
     this.userInputCallback = undefined;
-    this.nextProgram = nextProgram;
 };
 
 //not sure if states are needed yet...

@@ -39,7 +39,7 @@ function create() {
         font: "19px VT323",
         fill: '#FF9100',
         align: 'left',
-        lineHeight: 19
+        lineHeight: 12
     };
 
     terminal = new Terminal(80, 18);

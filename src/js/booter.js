@@ -35,6 +35,7 @@ Booter.prototype.getMenuSelection = function (response) {
         loadProgram(new MessageWriter());
         break;
     case "r":
+        loadProgram(new MessageBoard());
         break;
     default:
         this.welcome("FIX ME");
